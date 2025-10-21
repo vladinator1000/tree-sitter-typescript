@@ -9,11 +9,56 @@
 
 TypeScript and TSX grammars for [tree-sitter][].
 
-Because TSX and TypeScript are actually two different dialects, this module defines two grammars. Require them as follows:
+## Getting started
+Install the package.
+```
+npm i tree-sitter-typescript
+```
 
-```js
-require("tree-sitter-typescript").typescript; // TypeScript grammar
-require("tree-sitter-typescript").tsx; // TSX grammar
+
+### Node
+If you'd like to run [tree-sitter in Node.js](https://tree-sitter.github.io/node-tree-sitter/):
+```
+npm i tree-sitter
+```
+Create a parser using the Node runtime.
+```ts
+import Parser from 'tree-sitter'
+import { typescript, tsx } from "tree-sitter-typescript" // choose your grammar
+
+const parser = new Parser()
+parser.setLanguage(typescript)
+```
+
+### WASM 
+If you'd like to run [tree-sitter in the browser](https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md):
+```
+npm i web-tree-sitter
+```
+
+Create a parser using the WASM runtime.
+```ts
+import { Language, Parser } from "web-tree-sitter"
+
+await Parser.init()
+const parser = new Parser()
+// This runtime requires loading the language as wasm
+// Change "typescript" to "tsx" if you'd like to use TSX
+const typescript = await Language.load(
+  "node_modules/tree-sitter-typescript/tree-sitter-typescript.wasm",
+)
+parser.setLanguage(typescript)
+```
+
+
+### Use your parser
+```ts
+const source = "let x = 1"
+const tree = parser.parse(source)
+
+if (tree?.rootNode.toString() === "(program (lexical_declaration (variable_declarator name: (identifier) value: (number))))") {
+  console.log("Hello, tree-sitter!")
+}
 ```
 
 For Javascript files with [flow] type annotations you can use the `tsx` parser.
@@ -21,8 +66,7 @@ For Javascript files with [flow] type annotations you can use the `tsx` parser.
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
 [flow]: https://flow.org/en/
 
-References
-
+References:
 - [TypeScript Language Spec](https://github.com/microsoft/TypeScript/blob/30cb20434a6b117e007a4959b2a7c16489f86069/doc/spec-ARCHIVED.md)
 
 [ci]: https://img.shields.io/github/actions/workflow/status/tree-sitter/tree-sitter-typescript/ci.yml?logo=github&label=CI
