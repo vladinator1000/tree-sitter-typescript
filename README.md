@@ -39,14 +39,17 @@ npm i web-tree-sitter
 Create a parser using the WASM runtime.
 ```ts
 import { Language, Parser } from "web-tree-sitter"
+import treeSitterWasmUrl from "web-tree-sitter/tree-sitter.wasm?url"
+import tsxWasmUrl from "tree-sitter-typescript/tree-sitter-tsx.wasm?url" // Choose typescript or tsx here
 
-await Parser.init()
+await Parser.init({
+  locateFile() {
+    return treeSitterWasmUrl
+  },
+})
+
 const parser = new Parser()
-// This runtime requires loading the language as wasm
-// Change "typescript" to "tsx" if you'd like to use TSX
-const typescript = await Language.load(
-  "node_modules/tree-sitter-typescript/tree-sitter-typescript.wasm",
-)
+const language = await Language.load(tsxWasmUrl)
 parser.setLanguage(typescript)
 ```
 
