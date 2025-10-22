@@ -48,13 +48,13 @@ import { Language, Parser } from "web-tree-sitter"
 
 await Parser.init({
   locateFile(scriptName: string) {
-    return "/public/" + scriptName
+    return scriptName
   },
 })
 
 const parser = new Parser()
 
-const language = await Language.load("/public/tree-sitter-tsx.wasm")
+const language = await Language.load("/tree-sitter-tsx.wasm")
 parser.setLanguage(language)
 ```
 
