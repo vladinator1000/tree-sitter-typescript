@@ -31,7 +31,7 @@ parser.setLanguage(typescript)
 ```
 
 ### WASM 
-If you'd like to run [tree-sitter in the browser](https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md):
+If you'd like to run [tree-sitter in the browser](https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md) (using Vite):
 ```
 npm i web-tree-sitter
 ```
