@@ -59,7 +59,7 @@ parser.setLanguage(language)
 ```
 
 The above example uses the `tsx` grammar, change the `copy-wasm` script and `language.load` path if you'd like to use the `tree-sitter-typescript.wasm` grammar.
-Getting the WASM bindings to wokr in the browser can be tricky. For more information, please read the tree-sitter web binding docs: https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md
+Getting the WASM bindings to work in the browser can be tricky. For more information, please read the tree-sitter web binding docs: https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md
 
 ### Use your parser
 ```ts
