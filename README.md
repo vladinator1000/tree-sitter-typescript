@@ -31,28 +31,35 @@ parser.setLanguage(typescript)
 ```
 
 ### WASM 
-If you'd like to run [tree-sitter in the browser](https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md) (using Vite):
+If you'd like to run [tree-sitter in the browser](https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md):
 ```
 npm i web-tree-sitter
+```
+
+Add these script to `package.json`
+```json
+"copy-wasm": "cp node_modules/tree-sitter-typescript/tree-sitter-tsx.wasm public && cp node_modules/web-tree-sitter/tree-sitter.wasm public",
+"postinstall": "copy-wasm",
 ```
 
 Create a parser using the WASM runtime.
 ```ts
 import { Language, Parser } from "web-tree-sitter"
-import treeSitterWasmUrl from "web-tree-sitter/tree-sitter.wasm?url"
-import tsxWasmUrl from "tree-sitter-typescript/tree-sitter-tsx.wasm?url" // Choose typescript or tsx here
 
 await Parser.init({
-  locateFile() {
-    return treeSitterWasmUrl
+  locateFile(scriptName: string) {
+    return "/public/" + scriptName
   },
 })
 
 const parser = new Parser()
-const language = await Language.load(tsxWasmUrl)
-parser.setLanguage(typescript)
+
+const language = await Language.load("/public/tree-sitter-tsx.wasm")
+parser.setLanguage(language)
 ```
 
+The above example uses the `tsx` grammar, change the `copy-wasm` script and `language.load` path if you'd like to use the `tree-sitter-typescript.wasm` grammar.
+Getting the WASM bindings to wokr in the browser can be tricky. For more information, please read the tree-sitter web binding docs: https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md
 
 ### Use your parser
 ```ts
